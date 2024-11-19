@@ -1,5 +1,9 @@
 # Banjo-Kazooie (100.0000%)
 
+Campo: This works in the Kali VM using the checked out code in the shared Windows folder.
+
+---
+
 <img src="./progress/progress_total.svg">
 
 ### Baserom checksums
@@ -28,14 +32,22 @@ Works with Ubuntu 18.04 or higher.
 
 ### 1. Install dependencies
 
+
 ```sh
 sudo apt-get update && sudo apt-get install -y $(cat packages.txt)
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 git submodule update --init --recursive
+sudo apt-get install python3.12-venv
+python3 -m venv .venv
+source .venv/bin/activate
 python3 -m pip install -r requirements.txt
+
+*restart the terminal to pickup the `cargo` app*
 ```
 
 ### 2. Add baserom
+
+Can download ROMS from https://vimm.net/vault/N64
 
 Add the file for `US v1.0` as `baserom.us.v10.z64` in the project folder.
 
@@ -48,6 +60,8 @@ sha1sum baserom.us.v10.z64
 The output should match the checksum specified above.
 
 ### 3. Build
+
+Make sure to first activate the Python env with `source .venv/bin/activate`
 
 To extract and build everything simply run:
 
@@ -117,13 +131,13 @@ Follow the same instructions as Step 3 above in "Local (Linux)".
 ### 3. Run the Docker container
 
 ```sh
-docker run -it --rm -v $(pwd):/banjo banjo-kazooie 
+docker run -it --rm -v $(pwd):/banjo banjo-kazooie
 ```
 
 **NOTE for ARM users**: Use this command instead:
 
 ```sh
-docker run --platform linux/amd64 -it --rm -v $(pwd):/banjo banjo-kazooie 
+docker run --platform linux/amd64 -it --rm -v $(pwd):/banjo banjo-kazooie
 ```
 
 ### 4. Build
@@ -165,4 +179,5 @@ Replace `<VER>` with the version you are using:
 
 ### 3. Trigger the pipeline
 
-Push a commit to your repository and you should see a new pipeline starting in the `CI/CD > Pipelines` section! 
+Push a commit to your repository and you should see a new pipeline starting in the `CI/CD > Pipelines` section!
+
